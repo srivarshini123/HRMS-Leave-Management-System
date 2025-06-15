@@ -1,0 +1,66 @@
+/* Style for hamburger icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  display: block;
+  border-radius: 2px;
+}
+
+/* Responsive navbar layout */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #1E3A8A; /* Tailwind blue-800 */
+    width: 200px;
+    height: 100vh;
+    padding-top: 80px;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .nav-links li a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-container {
+    position: relative;
+    background-color: #1E3A8A;
+    padding: 20px;
+    color: white;
+  }
+
+  .logo {
+    font-weight: bold;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <style>
+    body {
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    .login-box h2 {
+      text-align: center;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      display: none;
+      text-align: center;
+    }
+  </style>
+    
+</head>
+<body>
+   <div class="login-box">
+  <form id="adminLoginForm">
+    <h2>Admin Login</h2>
+    <label>Username:</label>
+    <input type="text" id="adminUsername"><br>
+    <label>Password:</label>
+    <input type="password" id="adminPassword"><br>
+      <div class="error" id="errorMsg">Invalid credentials</div>
+    <button type="submit">Login</button>
+  </form>
+  </div>
+
+  <script src="admin_login.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!-- === employee_dashboard.html (Updated) === -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f1f4f9;
+    }
+    .container {
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #007bff;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    .sidebar h2 {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+    }
+    .welcome {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .card-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card h3 {
+      color: #007bff;
+    }
+    .card p {
+      font-size: 18px;
+      margin-top: 5px;
+    }
+    #leaveStatus {
+      margin-top: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table th, table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Employee Panel</h2>
+      <a onclick="showDashboard()">Dashboard</a>
+      <a href="ApplyLeave.html">Apply Leave</a>
+      <a onclick="showLeaveStatus()">View Leave Status</a>
+      <a onclick="signOut()">Sign Out</a>
+    </div>
+
+    <div class="main-content">
+      <div class="welcome" id="welcomeMessage">Welcome, Employee</div>
+      <div id="dashboardContent">
+        <div class="card-grid">
+          <div class="card">
+            <h3>Employee Name</h3>
+            <p id="empName">Loading...</p>
+          </div>
+          <div class="card">
+            <h3>Job Role</h3>
+            <p id="empRole">Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="leaveStatus" style="display: none;">
+        <h2>My Leave Status</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="leaveStatusBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const empData = localStorage.getItem("loggedInEmployee");
+    if (!empData) {
+      alert("Unauthorized access. Please login first.");
+      window.location.href = "employee_login.html";
+    }
+    const employee = JSON.parse(empData);
+    const roles = ["Software Developer", "HR Executive", "QA Tester", "Business Analyst", "Project Manager", "UI/UX Designer", "System Admin", "Support Engineer"];
+    const randomRole = roles[Math.floor(Math.random() * roles.length)];
+
+    document.getElementById("welcomeMessage").innerText = "Welcome, " + (employee.fname || "Employee");
+    document.getElementById("empName").innerText = (employee.fname || "") + " " + (employee.lname || "");
+    document.getElementById("empRole").innerText = randomRole;
+
+    function signOut() {
+      localStorage.removeItem("loggedInEmployee");
+      alert("Signed out successfully.");
+      window.location.href = "index.html";
+    }
+
+    function showLeaveStatus() {
+      document.getElementById("dashboardContent").style.display = "none";
+      document.getElementById("leaveStatus").style.display = "block";
+      const history = JSON.parse(localStorage.getItem("leaveHistory_" + employee.empid)) || [];
+      const tbody = document.getElementById("leaveStatusBody");
+      tbody.innerHTML = "";
+      if (history.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4">No leave requests found.</td></tr>`;
+        return;
+      }
+      history.forEach(req => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${req.from}</td>
+          <td>${req.to}</td>
+          <td>${req.reason}</td>
+          <td>${req.status}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function showDashboard() {
+      document.getElementById("leaveStatus").style.display = "none";
+      document.getElementById("dashboardContent").style.display = "block";
+    }
+  </script>
+</body>
+</html>
